@@ -1,45 +1,69 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
+'use client'
+
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import { LINKS } from '@/app/links'
+import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
-    <header className="border-b border-border/40 backdrop-blur-sm bg-background/80 fixed top-0 left-0 right-0 z-50">
-      <div className="container flex items-center justify-between py-4">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center">
-            <Image src="/images/logo.svg" alt="Logo" width={120} height={40} />
+    <header className='border-b border-border/40 backdrop-blur-sm bg-background/80 fixed top-0 left-0 right-0 z-50'>
+      <div className='container flex items-center justify-between py-4'>
+        <div className='flex items-center gap-8'>
+          <Link href='/' className='flex items-center'>
+            <span className='font-bold text-3xl'>$QUIT</span>
           </Link>
-          <nav className="hidden md:flex gap-6">
-            <Link href="#about" className="text-foreground/70 hover:text-foreground transition-colors">
-              ABOUT
-            </Link>
-            <Link href="#features" className="text-foreground/70 hover:text-foreground transition-colors">
-              FEATURES
-            </Link>
-            <Link href="#tokenomics" className="text-foreground/70 hover:text-foreground transition-colors">
-              TOKENOMICS
-            </Link>
-            <Link href="#roadmap" className="text-foreground/70 hover:text-foreground transition-colors">
-              ROADMAP
-            </Link>
-            <Link href="#how-to-buy" className="text-foreground/70 hover:text-foreground transition-colors">
-              HOW TO BUY
-            </Link>
-            <Link href="#faq" className="text-foreground/70 hover:text-foreground transition-colors">
-              FAQ
-            </Link>
+          <nav className='hidden md:flex gap-6'>
+            {LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className='text-foreground/70 hover:text-foreground transition-colors'
+              >
+                {link.text}
+              </Link>
+            ))}
           </nav>
         </div>
-        <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" className="hidden sm:flex border-primary text-primary hover:bg-primary hover:text-white">
-            0 Pt
-          </Button>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <div className='flex items-center gap-x-3'>
+          <Button className='bg-primary text-primary-foreground hover:bg-primary/90'>
             Connect Wallet
+          </Button>
+          <Button
+            variant='ghost'
+            size='icon'
+            className='md:hidden bg-primary text-primary-foreground hover:bg-primary/90'
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X className='h-6 w-6' />
+            ) : (
+              <Menu className='h-6 w-6' />
+            )}
+            <span className='sr-only'>Toggle menu</span>
           </Button>
         </div>
       </div>
+      {isMenuOpen && (
+        <div className='md:hidden border-t border-border/40 bg-background/95 backdrop-blur-sm'>
+          <nav className='container flex flex-col gap-4 py-4'>
+            {LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className='text-foreground/70 hover:text-foreground transition-colors'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.text}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
-  );
+  )
 }
