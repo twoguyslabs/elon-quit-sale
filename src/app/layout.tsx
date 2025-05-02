@@ -1,23 +1,33 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import Header from '@/components/header'
+import type { Metadata } from "next";
+import "./globals.css";
+import Header from "@/components/header";
+import { headers } from "next/headers";
+import ReownContextProvider from "@/context/reown";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: '$RAGE Token | Launchpad',
-  description: 'The angriest token in crypto. Join the revolution.',
-}
+  title: "$QUIT Token Sale",
+  description:
+    "The angriest token in crypto. Join the revolution and buy $QUIT token.",
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const headersObj = await headers();
+  const cookies = headersObj.get("cookie");
+
   return (
-    <html lang='en' className='dark'>
+    <html lang="en" className="dark">
       <body>
-        <Header />
-        <main>{children}</main>
+        <ReownContextProvider cookies={cookies}>
+          <Header />
+          {children}
+        </ReownContextProvider>
+        <Toaster />
       </body>
     </html>
-  )
+  );
 }
