@@ -5,13 +5,18 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { LINKS } from "@/app/links";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { ChevronDown, CircleHelp, Menu, X } from "lucide-react";
+import {
+  useAppKit,
+  useAppKitAccount,
+  useAppKitNetwork,
+} from "@reown/appkit/react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { open } = useAppKit();
   const { isConnected, address } = useAppKitAccount();
+  const { caipNetwork } = useAppKitNetwork();
 
   const formatAddress = address?.slice(0, 4) + "..." + address?.slice(-4);
 
@@ -50,7 +55,16 @@ export default function Header() {
               Connect Wallet
             </Button>
           )}
-
+          {isConnected && (
+            <Button
+              variant="outline"
+              onClick={() => open({ view: "Networks" })}
+              className="hidden md:flex"
+            >
+              {caipNetwork?.name}
+              <ChevronDown />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
@@ -79,6 +93,16 @@ export default function Header() {
                 {link.text}
               </Link>
             ))}
+            {isConnected && (
+              <Button
+                variant="outline"
+                onClick={() => open({ view: "Networks" })}
+                className="md:hidden"
+              >
+                {caipNetwork?.name}
+                <ChevronDown />
+              </Button>
+            )}
           </nav>
         </div>
       )}

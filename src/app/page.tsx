@@ -265,10 +265,10 @@ function CommitButton({
   const { writeContract, isPending } = useWriteContract();
 
   useEffect(() => {
-    if (buyTokensError && saleStatus === 1) {
+    if (buyAmount && buyTokensError && saleStatus === 1) {
       toast.error("Buying QUIT tokens failed");
     }
-  }, [buyTokensError, saleStatus]);
+  }, [buyAmount, buyTokensError, saleStatus]);
 
   useEffect(() => {
     if (claimTokensError && saleStatus === 2) {
@@ -281,10 +281,6 @@ function CommitButton({
       toast.error("Refund BNB failed");
     }
   }, [refundTokensError, saleStatus]);
-
-  useEffect(() => {
-    console.log(buyTokensError);
-  }, [buyTokensError]);
 
   switch (saleStatus) {
     case 0:
@@ -400,7 +396,7 @@ function CommitBNB() {
             Min Buy <span className="text-white/60">0.01 BNB</span>
           </div>
           <div className="flex justify-between">
-            Max Buy <span className="text-white/60">2 BNB</span>
+            Max Buy <span className="text-white/60">10 BNB</span>
           </div>
           <div className="flex justify-between">
             Claimable <span className="text-white/60">0 QUIT</span>

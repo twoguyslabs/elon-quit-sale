@@ -80,10 +80,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
     // The effect now only depends on endTime
   }, [endTime]);
 
-  useEffect(() => {
-    console.log(endTime);
-  }, [endTime]);
-
   return timeLeftString;
 };
 
