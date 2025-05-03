@@ -52,7 +52,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       const formattedMinutes = String(timeLeft.minutes).padStart(2, "0");
       const formattedSeconds = String(timeLeft.seconds).padStart(2, "0");
       if (timeLeft.days > 0) {
-        return `${timeLeft.days}d ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        return `${timeLeft.days}d:${formattedHours}h:${formattedMinutes}m:${formattedSeconds}s`;
       } else if (difference > 0) {
         return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
       } else {

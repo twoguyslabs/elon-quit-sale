@@ -102,7 +102,7 @@ function LaunchStatus() {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-[310px] overflow-y-auto scrollbar-hide">
         <table className="w-full text-white">
           <thead className="text-white/60 border-b border-white/20">
             <tr>
@@ -115,7 +115,7 @@ function LaunchStatus() {
             {allParticipants?.map((participant, index) => (
               <Participant
                 key={participant}
-                participant={participant}
+                participant={participant as `0x${string}`}
                 index={index}
               />
             ))}
@@ -414,14 +414,62 @@ function CommitBNB() {
 }
 
 export default function Home() {
+  const { data: saleStatus } = useReadContract({
+    abi: ELON_QUIT_SALE_ABI,
+    address: ELON_QUIT_SALE_ADDRESS,
+    functionName: "getSaleStatus",
+  });
+
   const { data: endTime } = useReadContract({
     abi: ELON_QUIT_SALE_ABI,
     address: ELON_QUIT_SALE_ADDRESS,
     functionName: "endTime",
   });
 
+  const status = saleStatus ? saleStatus : 0;
+
   const formatEndTime = endTime ? Number(endTime) : 0;
   const endTimeMs = formatEndTime * 1000;
+
+  const statusBadge = () => {
+    switch (status) {
+      case 0:
+        return (
+          <span className="text-red-500 flex items-center gap-1 bg-red-500/20 px-2 py-0.5 rounded text-xs">
+            <span className="w-2 h-2 rounded-full bg-red-500"></span>
+            Not Started
+          </span>
+        );
+      case 1:
+        return (
+          <span className="text-green-500 flex items-center gap-1 bg-green-500/20 px-2 py-0.5 rounded text-xs">
+            <span className="w-2 h-2 rounded-full bg-green-500"></span>
+            Live
+          </span>
+        );
+      case 2:
+        return (
+          <span className="text-green-500 flex items-center gap-1 bg-green-500/20 px-2 py-0.5 rounded text-xs">
+            <span className="w-2 h-2 rounded-full bg-green-500"></span>
+            End - Success
+          </span>
+        );
+      case 3:
+        return (
+          <span className="text-red-500 flex items-center gap-1 bg-red-500/20 px-2 py-0.5 rounded text-xs">
+            <span className="w-2 h-2 rounded-full bg-red-500"></span>
+            End - Failed
+          </span>
+        );
+      default:
+        return (
+          <span className="text-red-500 flex items-center gap-1 bg-red-500/20 px-2 py-0.5 rounded text-xs">
+            <span className="w-2 h-2 rounded-full bg-red-500"></span>
+            Not Started
+          </span>
+        );
+    }
+  };
 
   return (
     <section className="pt-24 pb-12 md:pt-32 md:pb-16 space-bg relative overflow-hidden">
@@ -449,10 +497,7 @@ export default function Home() {
                       <span className="text-white/60 text-sm border p-1 rounded-lg">
                         Memecoin
                       </span>
-                      <span className="text-green-500 flex items-center gap-1 bg-green-500/20 px-2 py-0.5 rounded text-xs">
-                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                        Live
-                      </span>
+                      {statusBadge()}
                     </div>
                   </div>
                 </div>
