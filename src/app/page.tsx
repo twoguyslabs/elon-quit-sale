@@ -413,6 +413,19 @@ function CommitBNB() {
   );
 }
 
+function PoweredByOctaSwap() {
+  return (
+    <div className="w-full text-center py-4 mt-8 relative z-20">
+      <p className="text-white text-3xl font-bold">
+        Powered by{" "}
+        <Link href="https://octaswap.io">
+          <span className="text-purple-500">Octa</span>Swap
+        </Link>
+      </p>
+    </div>
+  );
+}
+
 export default function Home() {
   const { data: saleStatus } = useReadContract({
     abi: ELON_QUIT_SALE_ABI,
@@ -515,6 +528,7 @@ export default function Home() {
             <CommitBNB />
           </div>
         </div>
+        <PoweredByOctaSwap />
       </div>
     </section>
   );
