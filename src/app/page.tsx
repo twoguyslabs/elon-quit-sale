@@ -264,23 +264,23 @@ function CommitButton({
 
   const { writeContract, isPending } = useWriteContract();
 
-  useEffect(() => {
-    if (buyAmount && buyTokensError && saleStatus === 1) {
-      toast.error("Buying QUIT tokens failed");
-    }
-  }, [buyAmount, buyTokensError, saleStatus]);
+  // useEffect(() => {
+  //   if (buyAmount && buyTokensError && saleStatus === 1) {
+  //     toast.error("Buying QUIT tokens failed");
+  //   }
+  // }, [buyAmount, buyTokensError, saleStatus]);
 
-  useEffect(() => {
-    if (claimTokensError && saleStatus === 2) {
-      toast.error("Claiming QUIT tokens failed");
-    }
-  }, [claimTokensError, saleStatus]);
+  // useEffect(() => {
+  //   if (claimTokensError && saleStatus === 2) {
+  //     toast.error("Claiming QUIT tokens failed");
+  //   }
+  // }, [claimTokensError, saleStatus]);
 
-  useEffect(() => {
-    if (refundTokensError && saleStatus === 3) {
-      toast.error("Refund BNB failed");
-    }
-  }, [refundTokensError, saleStatus]);
+  // useEffect(() => {
+  //   if (refundTokensError && saleStatus === 3) {
+  //     toast.error("Refund BNB failed");
+  //   }
+  // }, [refundTokensError, saleStatus]);
 
   switch (saleStatus) {
     case 0:
@@ -327,7 +327,7 @@ function CommitButton({
         <Button
           className="w-full bg-primary hover:bg-primary/90 text-white text-lg py-6"
           disabled={
-            !isConnected || isPending || !!refundTokensError || !refundTokens
+            !isConnected || isPending || !refundTokens
           }
           onClick={() => {
             if (refundTokens?.request) {
